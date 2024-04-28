@@ -7,3 +7,8 @@ WORKDIR /code
 COPY requirements.txt /code/
 RUN pip install -r requirements.txt
 COPY . /code/
+
+
+EXPOSE 8000              
+                    #document container-side port
+CMD python3 ./manage.py runserver 0.0.0.0:8000  # standard command to run

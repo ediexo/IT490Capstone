@@ -20,9 +20,10 @@ services:
     - database
     
   databackend:
-    build: ./databackend
+    image: databackend
+    build: 
+      context: ./databackend/
     container_name: databackend
-    command: sh -c "python3 manage.py migrate --noinput && python3 manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8000"
     restart: always
     volumes:
       - .:/app
@@ -49,9 +50,10 @@ services:
 
   #backend containers
   backend:
-    build: ./backend
+    image: backend
+    build: 
+      context: ./backend/
     container_name: backend-image
-    command: sh -c "python3 manage.py migrate --noinput && python3 manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8000"
     restart: always
     volumes:
       - .:/app
@@ -78,5 +80,5 @@ volumes:
 
 networks:
   database:
-  frontend:
-  backend:
+  frontend: 
+  backend: 
