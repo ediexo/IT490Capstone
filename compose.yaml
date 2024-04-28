@@ -6,25 +6,36 @@ services:
     container_name: mysql
     image: mysql
     environment:
-      MYSQL_USER: admin
-      MYSQL_ROOT_PASSWORD: it490xyz
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - 8001:80
     volumes: 
       - mysql-vol:/var/lib/mysql
+    env_file:
+      - .env
     networks: 
     - database
     
-  database-django:
-    container_name: phpmyadmin
-    image: phpmyadmin
-    networks:
-    - database
+  databackend:
+    image: databackend
+    build: 
+      context: ./databackend/
+    container_name: databackend
+    restart: always
+    volumes:
+      - .:/app
     ports:
-      - 8002:80
-    environment:
-      PMA_HOST: mysql
-      PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+    networks:
+      - database
+
 
   #frontend containers
   frontend:
@@ -38,10 +49,22 @@ services:
       - 8004:80
 
   #backend containers
+  backend:
+    image: backend
+    build: 
+      context: ./backend/
+    container_name: backend-image
+    restart: always
+    volumes:
+      - .:/app
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
 
   #rabbitmq container
   rabbitmq:
-    image: rabbitmq:3-managemant-alpine
+    image: "rabbitmq:3-management"
     container_name: 'rabbitmq'
     ports:
       - 5672:5672
@@ -57,5 +80,5 @@ volumes:
 
 networks:
   database:
-  frontend:
-  backend:
+  frontend: 
+  backend: 
