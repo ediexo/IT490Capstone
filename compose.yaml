@@ -1,0 +1,61 @@
+
+services:
+  
+  #database containers
+  mysql:
+    container_name: mysql
+    image: mysql
+    environment:
+      MYSQL_USER: admin
+      MYSQL_ROOT_PASSWORD: it490xyz
+    ports:
+      - 8001:80
+    volumes: 
+      - mysql-vol:/var/lib/mysql
+    networks: 
+    - database
+    
+  database-django:
+    container_name: phpmyadmin
+    image: phpmyadmin
+    networks:
+    - database
+    ports:
+      - 8002:80
+    environment:
+      PMA_HOST: mysql
+      PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+
+  #frontend containers
+  frontend:
+    container_name: frontend-react
+    image: frontend-image
+    build:
+      context: ./frontend/
+    networks:
+      - frontend
+    ports:
+      - 8004:80
+
+  #backend containers
+
+  #rabbitmq container
+  rabbitmq:
+    image: rabbitmq:3-managemant-alpine
+    container_name: 'rabbitmq'
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+
+volumes:
+  mysql-vol:
+
+
+
+networks:
+  database:
+  frontend:
+  backend:
