@@ -10,8 +10,6 @@ WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 COPY --from=builder /frontend/build .
 
-RUN npm install amqplib
-
 #Expose port 80
 EXPOSE 80
 

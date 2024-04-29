@@ -28,7 +28,7 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
-      - 8001:80
+      - 8001:8001
     volumes: 
       - mysql-vol:/var/lib/mysql
     env_file:
