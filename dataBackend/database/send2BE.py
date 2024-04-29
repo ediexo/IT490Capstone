@@ -4,18 +4,19 @@ import pika.exceptions
 import json
 
 
-credentials=pika.PlainCredentials('database', 'databasepass')
-parameters=pika.ConnectionParameters(host='localhost', port=5672, virtual_host="/", credentials=credentials)
-# connect to the broker with the credentials
-connection = pika.BlockingConnection(parameters)
-# declare the queue name
-channel = connection.channel()
-
-#channel.confirm_delivery()
-channel.queue_declare(queue='db2be', durable=True)
-print("DB to BE declared")
 
 def send(newU):
+  credentials=pika.PlainCredentials('database', 'databasepass')
+  parameters=pika.ConnectionParameters(host='localhost', port=5672, virtual_host="/", credentials=credentials)
+  # connect to the broker with the credentials
+  connection = pika.BlockingConnection(parameters)
+  # declare the queue name
+  channel = connection.channel()
+
+  #channel.confirm_delivery()
+  channel.queue_declare(queue='db2be', durable=True)
+  print("DB to BE declared")
+
   #test_json of possible information
   user_json = json.dumps(newU)
 
@@ -28,6 +29,6 @@ def send(newU):
   except pika.exceptions.UnroutableError:
     print (f"Message Returned")
     return False
-connection.close()
+  connection.close()
 
 send ("success test!")

@@ -4,30 +4,33 @@ import pika.exceptions
 import json
 
 
-credentials=pika.PlainCredentials('backend', 'backendpass')
-parameters=pika.ConnectionParameters(host='localhost', port=5672, virtual_host="/", credentials=credentials)
-# connect to the broker with the credentials
-connection = pika.BlockingConnection(parameters)
-# declare the queue name
-channel = connection.channel()
-
-#channel.confirm_delivery()
-channel.queue_declare(queue='be2db', durable=True)
-print("BE to DB declared")
-
 def send(newU):
+
+  credentials=pika.PlainCredentials('backend', 'backendpass')
+  parameters=pika.ConnectionParameters(host='localhost', port=5672, virtual_host="/", credentials=credentials)
+  # connect to the broker with the credentials
+  connection = pika.BlockingConnection(parameters)
+  # declare the queue name
+  channel = connection.channel()
+
+  #channel.confirm_delivery()
+  channel.queue_declare(queue='be2db', durable=True)
+  print("BE to DB declared")
+
+
   #test_json of possible information
-  user_json = json.dumps(newU)
+  user_json = newU
 
   try:
   # publish text to the queue and echo in terminal the message
     success = channel.basic_publish(exchange='', routing_key='be2db', body=user_json, mandatory=True) #success = whether or not the queue is working
-    print(f" [x] Sent user_json")
+    print(f" [x] Sent user_json = b{newU}")
     return success
 
   except pika.exceptions.UnroutableError:
     print (f"Message Returned")
     return False
-connection.close()
+  connection.close()
+  
 
 send ("new users fake")
