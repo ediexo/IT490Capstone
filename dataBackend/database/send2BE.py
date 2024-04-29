@@ -1,0 +1,33 @@
+#!/usr/bin/env python3
+import pika
+import pika.exceptions
+import json
+
+
+credentials=pika.PlainCredentials('database', 'databasepass')
+parameters=pika.ConnectionParameters(host='localhost', port=5672, virtual_host="/", credentials=credentials)
+# connect to the broker with the credentials
+connection = pika.BlockingConnection(parameters)
+# declare the queue name
+channel = connection.channel()
+
+#channel.confirm_delivery()
+channel.queue_declare(queue='db2be', durable=True)
+print("DB to BE declared")
+
+def send(newU):
+  #test_json of possible information
+  user_json = json.dumps(newU)
+
+  try:
+  # publish text to the queue and echo in terminal the message
+    success = channel.basic_publish(exchange='', routing_key='be2db', body=user_json, mandatory=True) #success = whether or not the queue is working
+    print(f" [x] Sent user_json")
+    return success
+
+  except pika.exceptions.UnroutableError:
+    print (f"Message Returned")
+    return False
+connection.close()
+
+send ("success test!")
