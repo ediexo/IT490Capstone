@@ -3,7 +3,9 @@ services:
 
   #rabbitmq container
   rabbitmq:
-    image: "rabbitmq:3-management"
+    image: rabbitmq
+    build:
+      context: ./rabbitmq/
     container_name: rabbitmq
     ports:
       - 5672:5672
