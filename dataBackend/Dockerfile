@@ -6,9 +6,9 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /code
 COPY requirements.txt /code/
 RUN pip install -r requirements.txt
+RUN pip install python-decouple
 COPY . /code/
-
 
 EXPOSE 8000              
                     #document container-side port
-CMD python3 ./manage.py runserver 0.0.0.0:8000  # standard command to run
+CMD python3 ./manage.py runserver  # standard command to run

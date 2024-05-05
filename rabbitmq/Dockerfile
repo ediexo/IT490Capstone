@@ -1,5 +1,5 @@
 FROM rabbitmq:3-management
-COPY rabbitmq.conf /etc/rabbitmq
-COPY definitions.json /etc/rabbitmq
+COPY rabbitmq.config ./rabbitmq
+COPY definitions.json ./rabbitmq
 
-RUN cat /etc/rabbitmq/rabbitmq.conf
+# RUN cat etc/rabbitmq/rabbitmq.conf

@@ -11,8 +11,7 @@ services:
       - 5672:5672
       - 15672:15672
     volumes:
-      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+      - rmq-vol:/var/lib/rabbitmq
     networks:
       - database
       - frontend
@@ -28,15 +27,18 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
-      - 8001:80
+      - 8001:8001
+      - 3306:3306
+    expose:
+      - 8001
+      - 3306
     volumes: 
       - mysql-vol:/var/lib/mysql
     env_file:
       - .env
     networks: 
     - database
-    - frontend
-    - backend
+
     
   databackend:
     image: databackend
@@ -44,10 +46,12 @@ services:
       context: ./databackend/
     container_name: databackend
     restart: always
-    volumes:
-      - .:/app
     ports:
-      - "8000:8000"
+      - 8000:8000
+      - 3306
+    expose:
+      - 8002
+      - 3306
     env_file:
       - .env
     depends_on:
@@ -85,6 +89,9 @@ services:
 
 volumes:
   mysql-vol:
+    name: mysql-vol
+  rmq-vol:
+    name: rmq-vol
 
 
 
