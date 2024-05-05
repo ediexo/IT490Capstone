@@ -17,12 +17,9 @@ def send(newU):
   channel.queue_declare(queue='db2be', durable=True)
   print("DB to BE declared")
 
-  #test_json of possible information
-  user_json = json.dumps(newU)
-
   try:
   # publish text to the queue and echo in terminal the message
-    success = channel.basic_publish(exchange='', routing_key='be2db', body=user_json, mandatory=True) #success = whether or not the queue is working
+    success = channel.basic_publish(exchange='', routing_key='db2be', body=newU, mandatory=True) #success = whether or not the queue is working
     print(f" [x] Sent user_json")
     return success
 
@@ -31,4 +28,3 @@ def send(newU):
     return False
   connection.close()
 
-send ("success test!")

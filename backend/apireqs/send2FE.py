@@ -18,12 +18,12 @@ def send(newU):
   channel.queue_declare(queue='be2fe', durable=True)
   print("BE to FE declared")
   #test_json of possible information
-  user_json = json.dumps(newU)
+  user_json = newU
 
   try:
   # publish text to the queue and echo in terminal the message
     success = channel.basic_publish(exchange='', routing_key='be2fe', body=user_json, mandatory=True) #success = whether or not the queue is working
-    print(f" [x] Sent user_json")
+    print(f" [x] Sent user_json final")
     return success
 
   except pika.exceptions.UnroutableError:
@@ -32,5 +32,3 @@ def send(newU):
   
   connection.close()
 
-
-send ("new users fake")
