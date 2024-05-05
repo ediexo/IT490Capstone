@@ -80,11 +80,11 @@ SECRET_KEY= config('SECRET_KEY')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': config('MYSQL_DATABASE'),
-        'USER': config('MYSQL_USER'),
-        'PASSWORD': config('MYSQL_PASSWORD'),
-        'HOST': config('DB_HOST', 'mysql'), 
-        'PORT': config('DB_PORT', '8001'),  
+        'NAME': 'database490',
+        'USER': 'root',
+        'PASSWORD': 'database',
+        'HOST': 'mysql', 
+        'PORT': '3306',  
     }
 }
 
