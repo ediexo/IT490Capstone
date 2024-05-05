@@ -3,10 +3,9 @@ services:
 
   #rabbitmq container
   rabbitmq:
-    image: rabbitmq
-    build:
-      context: ./rabbitmq/
+    image: rabbitmq:3-management 
     container_name: rabbitmq
+    hostname: rabbitmq
     ports:
       - 5672:5672
       - 15672:15672

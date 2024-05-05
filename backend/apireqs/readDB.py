@@ -14,10 +14,11 @@ def main():
     
     def callback(ch, method, properties, body):
         ch.basic_ack(delivery_tag = method.delivery_tag)
-        print(f" [x] Received {body}")
+        data = json.loads(body)
+        print(f" [x] Received "+ data["key"] + " = " + data["username"] + " returning")
         send2FE.send(body)
 
-    channel.basic_consume(queue='db2be', on_message_callback=callback,auto_ack=False )
+    channel.basic_consume(queue='db2be', on_message_callback=callback,auto_ack=False)
 
     print(' [*] Waiting for messages. To exit press CTRL+C')
     channel.start_consuming()

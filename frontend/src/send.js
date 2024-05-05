@@ -2,6 +2,13 @@
 
 var amqp = require('amqplib/callback_api');
 
+let test_data = {
+    "key": "newUser",
+    "username": "ewTest",
+    "password": "ewTestPASS",
+    "lastfm_user": "edie02",
+    "email": "mw396@njit.edu"
+  }
 
 amqp.connect('amqp://frontend:frontendpass@localhost:5672/', function(error0, connection) {
     if (error0) {
@@ -13,7 +20,7 @@ amqp.connect('amqp://frontend:frontendpass@localhost:5672/', function(error0, co
         }
 
         var queue = 'fe2be';
-        var msg = '{"first name":"Jeremy"}'
+        var msg = toString(test_data);
        
 
         channel.assertQueue(queue, {
