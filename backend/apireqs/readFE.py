@@ -1,6 +1,6 @@
 import pika
 import json
-import send2DB
+from options import parser
 
 # use the backend rabbitmq credentials to connect to the server
 credentials=pika.PlainCredentials('backend', 'backendpass')
@@ -16,8 +16,7 @@ def main():
         ch.basic_ack(delivery_tag = method.delivery_tag)
         data = body.decode('utf-8')
         data = json.loads(data)
-        print(f" [x] Received "+ data["key"] + " = " + data["username"])
-        send2DB.send(body)
+        parser.main(body)
 
     channel.basic_consume(queue='fe2be', on_message_callback=callback,auto_ack=False )
 
