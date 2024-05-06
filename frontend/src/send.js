@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
+import LoginData from './login';
+import RegData from './register';
 var amqp = require('amqplib/callback_api');
 
-import test_data from './testUser.json' 
-console.log(data);
 
 amqp.connect('amqp://frontend:frontendpass@localhost:5672/', function(error0, connection) {
     if (error0) {

@@ -6,7 +6,7 @@ const Home = (props) => {
     const navigate = useNavigate()
   
     const onButtonClick = () => {
-      // You'll update this function later
+      navigate("./login")
     }
   
     return (
@@ -24,6 +24,7 @@ const Home = (props) => {
           />
           {loggedIn ? <div>Your email address is {email}</div> : <div />}
         </div>
+        
       </div>
     )
   }

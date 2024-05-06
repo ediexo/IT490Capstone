@@ -1,7 +1,8 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Home from './home'
 import Login from './login'
-import './styles.css'
+
+import './App.css'
 import { useEffect, useState } from 'react'
 
 function App() {
