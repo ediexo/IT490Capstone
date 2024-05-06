@@ -1,17 +1,17 @@
 import React, { useState,} from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 
-const LoginData = (props) => {
+const RegData = (props) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [emailError, setEmailError] = useState('')
-  const [passwordError, setPasswordError] = useState('')
+  const [username, setUsername] = useState('')
+  const [lastfmUser, setLFMU] = useState('')
+
   
   const navigate = useNavigate()
 
-  const submitLogin = () => {
-    setEmailError('')
-    setPasswordError('')
+  const submitLogin = (e) => {
+    e.preventDefault()
 
     if ('' === email) {
       setEmailError('Please input an email')
@@ -31,17 +31,19 @@ const LoginData = (props) => {
       setPasswordError('The password must be 8 characters or longer')
       return
     }
-    const Login = {
+    const reg = {
       email: email,
       password: password,
+      username: username,
+      lastfmUser: lastfmUser,
     }
 
-  const loginData = new Login()
-  loginData.append('login', JSON.stringify(Login))
+  const register = new reg()
+  register.append('register', JSON.stringify(reg))
   //send json of loginInfo to the backends
-  sendtoDB((loginData) => {
+  sendtoDB((RegData) => {
     // if the data successfully is sent to the backend (BE and DB), login
-    if (loginData) console.log(loginData);
+    if (register) console.log(register);
     else if ( window.confirm('An account with the email address ' + email + ' does not exist. Please sign up for a new account',)
     ) {
       
@@ -58,11 +60,11 @@ const LoginData = (props) => {
       body:callback,
       })
     .then((r) => r.json())
-    .then((newLogin) => {
+    .then((newAccount) => {
       setEmail("");
-      setEmailError("");
       setPassword("");
-      setPasswordError("");
+      setLFMU('');
+      setUsername('');
       
     })
     navigate("/home")
@@ -74,9 +76,9 @@ const LoginData = (props) => {
   return (
     <div>
       <div className='mainContainer'>
-        <h1>Login</h1>
+        <h1>Register</h1>
         <div className='noAccount'>
-          new user? sign up <a href='./register.js'>here</a>!
+          already have an account? login <a href='./login.js'>here</a>!
         </div>
         <div className='form'>
           <form onSubmit={submitLogin}>
@@ -91,6 +93,19 @@ const LoginData = (props) => {
               <input value={password} placeholder="Enter your password here" onChange={(ev) => setPassword(ev.target.value)} className={'inputBox'}/>
              <label className="errorLabel">{passwordError}</label>
             </div>
+            <br>
+            </br>
+            <div className='inputContainer'>
+              <label htmlFor='username'>Username:</label>
+              <input value={username} placeholder="Enter your username here" onChange={(ev) => setUsername(ev.target.value)} className={'inputBox'}/>
+
+            </div>
+            <br />
+            <div className={'inputContainer'}>
+              <label  htmlFor='lastfmuser'>last.fm Username:</label>
+              <input value={lastfmUser} placeholder="Enter your last.fm username here" onChange={(ev) => setLFMU(ev.target.value)} className={'inputBox'}/>
+
+            </div>
             <button className='inputButton'>Submit</button>
           </form>
         </div>
@@ -99,4 +114,4 @@ const LoginData = (props) => {
   )
 };
 
-export default LoginData
+export default RegData
