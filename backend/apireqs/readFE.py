@@ -1,5 +1,6 @@
 import pika
-import json 
+import json
+import pickle 
 import send2DB
 
 # use the backend rabbitmq credentials to connect to the server
@@ -14,9 +15,13 @@ def main():
     
     def callback(ch, method, properties, body):
         ch.basic_ack(delivery_tag = method.delivery_tag)
-        data = json.dumps(body)
-        print(f" [x] Received "+ data["key"] + " = " + data["username"])
-        send2DB.send(body)
+        data = body.decode('utf-8')
+        pick = pickle.loads(body)
+        print(type(body))
+        print(type(data))
+        print(type(pick))
+       # print(f" [x] Received "+ data["key"] + " = " + data["username"])
+        #send2DB.send(body)
 
     channel.basic_consume(queue='fe2be', on_message_callback=callback,auto_ack=False )
 

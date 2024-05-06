@@ -2,13 +2,8 @@
 
 var amqp = require('amqplib/callback_api');
 
-let test_data = {
-    "key": "newUser",
-    "username": "ewTest",
-    "password": "ewTestPASS",
-    "lastfm_user": "edie02",
-    "email": "mw396@njit.edu"
-  }
+import test_data from './testUser.json' 
+console.log(data);
 
 amqp.connect('amqp://frontend:frontendpass@localhost:5672/', function(error0, connection) {
     if (error0) {
